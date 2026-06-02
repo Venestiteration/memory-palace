@@ -1,0 +1,99 @@
+# ===================
+# Environment & Secrets
+# ===================
+.env
+.env.local
+.env.*.local
+
+# ===================
+# System Files
+# ===================
+.DS_Store
+Thumbs.db
+
+# ===================
+# Python
+# ===================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+/lib/
+/lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ===================
+# Virtual Environments
+# ===================
+venv/
+ENV/
+env/
+.venv/
+
+# ===================
+# Memory Palace Index Data
+# ===================
+.memory_palace/
+*.sqlite
+*.sqlite3
+
+# ===================
+# Personal Vault Content
+# ===================
+00_Inbox/
+01_Sources/
+02_Atomic_Notes/
+03_Maps/
+04_Cards/
+05_Projects/
+06_Daily_Briefs/
+07_Weekly_Synthesis/
+08_Outputs/
+09_Archive/
+
+# ===================
+# Vector Index
+# ===================
+vector_index/
+*.npy
+manifest.json
+
+# ===================
+# Logs & Cache
+# ===================
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+node_modules/
+dist/
+
+# ===================
+# IDE & Editor
+# ===================
+.idea/
+.vscode/
+.claude/
+.workbuddy/
+*.swp
+*.swo
+*~
+
+# ===================
+# OS
+# ===================
+.DS_Store

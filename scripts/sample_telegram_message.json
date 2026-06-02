@@ -1,0 +1,16 @@
+{
+  "message_id": 12345,
+  "date": "2026-05-13T14:30:52+08:00",
+  "chat": {
+    "id": -987654321,
+    "type": "group",
+    "title": "Trading Desk"
+  },
+  "from": {
+    "id": 111222333,
+    "is_bot": false,
+    "first_name": "Venes",
+    "username": "venest"
+  },
+  "text": "SPY 突破 450 阻力位，关注 452 附近的看涨期权机会"
+}
