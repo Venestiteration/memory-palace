@@ -28,6 +28,17 @@ search/ask/brief/scheduler -> 08_Outputs + local API/PWA
 
 ### 快速开始
 
+要求：Python 3.9+、Node.js 18+（仅运行 Web）。先安装 Python 依赖：
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+```
+
+最小的本地知识库流程：
+
 ```bash
 python scripts/check_system.py
 python scripts/validate_note.py _templates/atomic_note.md
@@ -51,12 +62,14 @@ npm install
 npm run dev
 ```
 
-`.env` 至少应按实际使用情况配置 `MINIMAX_API_KEY`、`ANTHROPIC_API_KEY`、`DASHSCOPE_API_KEY`、`READWISE_TOKEN`；Telegram 还需要 `TELEGRAM_BOT_TOKEN`，API 认证使用 `MEMORY_PALACE_API_TOKEN`，这两个变量当前未写入 `.env.example`。
+`.env` 按实际 provider 配置 `MINIMAX_API_KEY`、`ANTHROPIC_API_KEY`、`DASHSCOPE_API_KEY` 和 `READWISE_TOKEN`；Telegram 需要 `TELEGRAM_BOT_TOKEN`，API 认证使用 `MEMORY_PALACE_API_TOKEN`。这些变量均已在 `.env.example` 中列出。配置认证后，前端使用标准 `Authorization: Bearer <token>`，CLI 也可直接发送原始 token。
+
+主要 API：`POST /capture/text` 写入 Inbox，`GET /inbox` 查看待处理内容，`POST /ask` 检索并问答，`GET /brief/daily` 和 `/brief/weekly` 读取反馈，`GET /health/detailed` 查看本地状态。接口以源码路由为准。
 
 ### 安全与已知限制
 
-- API 绑定 `127.0.0.1`，但 health/jobs/metrics 路由没有认证依赖；路径穿越检查函数也未完整接入路由。
-- 前端发送 `Authorization: Bearer <token>`，后端当前直接比较 header 值，Bearer 前缀约定需统一。
+- API 默认绑定 `127.0.0.1`，health/jobs/metrics 路由仍没有认证依赖；路径穿越检查函数也未完整接入所有路由。不要直接改为公网监听。
+- 配置 `MEMORY_PALACE_API_TOKEN` 后，前端和后端使用标准 `Authorization: Bearer <token>`；未配置时为开发模式匿名访问。
 - LLM、Embedding、Readwise、Telegram 会接触个人内容或凭据；请做好本地权限、备份与日志管理。
 - 运行时目录和笔记库可能由脚本创建，README 中的示例层级不代表全部目录已提交。
 
@@ -86,11 +99,11 @@ python -m uvicorn api.main:app --reload --host 127.0.0.1 --port 8000
 cd web && npm install && npm run dev
 ```
 
-Configure model, Readwise, Telegram, and API-token variables in `.env`. `TELEGRAM_BOT_TOKEN` and `MEMORY_PALACE_API_TOKEN` are used by the source but are not currently listed in the example file.
+Configure model, Readwise, Telegram, and API-token variables in `.env`; all source-read variables are listed in `.env.example`. The frontend sends `Authorization: Bearer <token>`, and the backend accepts that standard form as well as a raw token for CLI clients.
 
 ### Security and limitations
 
-The API is localhost-oriented but several operational routes lack authentication. The frontend/backend Bearer-token convention is inconsistent. Personal content may leave the machine through model, embedding, Readwise, or Telegram providers. Review path checks and runtime-created directories before exposing the service.
+The API is localhost-oriented and several operational routes still lack authentication; do not expose it directly to the public internet. Personal content may leave the machine through model, embedding, Readwise, or Telegram providers. Review path checks, runtime-created directories, backups, and logs before sharing the service.
 
 ## License
 

@@ -13,6 +13,16 @@ def get_api_token() -> Optional[str]:
     return os.environ.get("MEMORY_PALACE_API_TOKEN")
 
 
+def _extract_token(authorization: Optional[str]) -> Optional[str]:
+    """Accept the standard ``Bearer <token>`` form and raw tokens for CLI use."""
+    if not authorization:
+        return None
+    scheme, separator, value = authorization.partition(" ")
+    if separator and scheme.lower() == "bearer":
+        return value.strip() or None
+    return authorization.strip() or None
+
+
 def verify_token(x_token: Optional[str] = Header(None, alias="Authorization")) -> str:
     """
     验证 API token。
@@ -33,20 +43,20 @@ def verify_token(x_token: Optional[str] = Header(None, alias="Authorization")) -
     if not configured_token:
         return "dev-mode"
 
-    # x_token 可以是 None（未提供）或字符串
-    if not x_token:
+    token = _extract_token(x_token)
+    if not token:
         raise HTTPException(
             status_code=401,
             detail="缺少 Authorization header"
         )
 
-    if not secrets.compare_digest(x_token, configured_token):
+    if not secrets.compare_digest(token, configured_token):
         raise HTTPException(
             status_code=401,
             detail="无效的 token"
         )
 
-    return x_token
+    return token
 
 
 def require_write_token(x_token: Optional[str] = Header(None, alias="Authorization")) -> str:
@@ -71,16 +81,17 @@ def require_read_token(x_token: Optional[str] = Header(None, alias="Authorizatio
         return "dev-mode"
 
     # 有配置则必须验证
-    if not x_token:
+    token = _extract_token(x_token)
+    if not token:
         raise HTTPException(
             status_code=401,
             detail="缺少 Authorization header"
         )
 
-    if not secrets.compare_digest(x_token, configured_token):
+    if not secrets.compare_digest(token, configured_token):
         raise HTTPException(
             status_code=401,
             detail="无效的 token"
         )
 
-    return x_token
+    return token
