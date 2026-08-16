@@ -1,9 +1,7 @@
 # memory-palace
 
 > 本地个人知识操作系统：自动摄入、加工、联想与反馈。/ A local personal knowledge operating system for capture, processing, association, and feedback.
-
-仓库：<https://github.com/Venestiteration/memory-palace>
-
+> 
 ## 中文说明
 
 ### 项目简介
@@ -62,13 +60,6 @@ npm run dev
 - LLM、Embedding、Readwise、Telegram 会接触个人内容或凭据；请做好本地权限、备份与日志管理。
 - 运行时目录和笔记库可能由脚本创建，README 中的示例层级不代表全部目录已提交。
 
-### STAR 项目介绍
-
-- **问题背景**：个人资料来自多个渠道，零散笔记难以检索，也缺少持续反馈。
-- **任务目标**：把捕获、原子化、索引、问答和健康检查组成可调度的本地系统。
-- **关键行动**：统一 CaptureResult，多 provider 接口，SQLite+向量索引，FastAPI/PWA 与定时任务协同。
-- **结果沉淀**：形成可增量构建、可搜索和可追问的知识流水线；外部模型与 token 配置仍需谨慎治理。
-
 ## English
 
 ### Overview
@@ -100,13 +91,6 @@ Configure model, Readwise, Telegram, and API-token variables in `.env`. `TELEGRA
 ### Security and limitations
 
 The API is localhost-oriented but several operational routes lack authentication. The frontend/backend Bearer-token convention is inconsistent. Personal content may leave the machine through model, embedding, Readwise, or Telegram providers. Review path checks and runtime-created directories before exposing the service.
-
-### STAR summary
-
-- **Situation**: Personal knowledge arrives from disconnected sources and decays without feedback.
-- **Task**: Build a schedulable local loop from capture to retrieval and reflection.
-- **Action**: Added provider abstractions, atomic writes, SQLite/vector indexes, FastAPI routes, PWA views, and health jobs.
-- **Result**: An incremental, searchable and askable knowledge workflow with explicit token and privacy boundaries.
 
 ## License
 
